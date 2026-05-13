@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../Style.css">
+    <script src="../Script.js" defer></script>
+</head>
+<body class="platform-mac state-unknown">
+  <div class="card">
+
+    <!-- Logo mark (blueprint style) -->
+    <div class="logo">
+      <svg width="56" height="56" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <rect width="80" height="80" rx="18" fill="#0a2744"/>
+        <!-- grid lines -->
+        <line x1="0" y1="20" x2="80" y2="20" stroke="#2563ab" stroke-width="1" opacity="0.7"/>
+        <line x1="0" y1="40" x2="80" y2="40" stroke="#2563ab" stroke-width="1" opacity="0.7"/>
+        <line x1="0" y1="60" x2="80" y2="60" stroke="#2563ab" stroke-width="1" opacity="0.7"/>
+        <line x1="20" y1="0" x2="20" y2="80" stroke="#2563ab" stroke-width="1" opacity="0.7"/>
+        <line x1="40" y1="0" x2="40" y2="80" stroke="#2563ab" stroke-width="1" opacity="0.7"/>
+        <line x1="60" y1="0" x2="60" y2="80" stroke="#2563ab" stroke-width="1" opacity="0.7"/>
+        <!-- bracket + dots -->
+        <g transform="translate(9.5, 8.5) scale(0.875)">
+          <path d="M24 14 Q12 14 12 26 L12 38 Q12 50 24 50 L28 50 L22 58"
+            fill="none" stroke="#e8f1fc" stroke-width="5.2"
+            stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="30" cy="32" r="3.8" fill="#e7f0fd"/>
+          <circle cx="42" cy="32" r="3.8" fill="#e7f0fd"/>
+          <circle cx="54" cy="32" r="3.8" fill="#e7f0fd"/>
+        </g>
+      </svg>
+    </div>
+
+    <h1>Demo Buddy</h1>
+    <p class="tagline">For live demos in Apple Business.</p>
+
+    <!-- State-aware status pill -->
+    <p class="platform-mac state-unknown status-pill">Extension status unknown</p>
+    <p class="platform-mac state-on  status-pill">✓ Extension is on</p>
+    <p class="platform-mac state-off status-pill">Extension is off</p>
+
+    <!-- Description -->
+    <div class="description">
+      <p>Mask your Company name, domain and serial numbers with this Safari Extension.</p>
+      <p>Add in Safari under <strong>Settings &gt; Extensions</strong>.</p>
+      <p>For feature requests, email: <strong>info@talktech.dk</strong></p>
+    </div>
+
+    <div class="divider platform-mac"></div>
+
+    <button class="platform-mac open-preferences">Open Safari Settings…</button>
+
+  </div>
+</body>
+</html>
