@@ -18,7 +18,7 @@ body {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding: 32px 40px 36px;
+    padding: 32px 40px 28px;
     -webkit-font-smoothing: antialiased;
     overflow-y: auto;
 }
@@ -62,22 +62,6 @@ h1 {
     line-height: 1.4;
 }
 
-/* ── Status pill ── */
-.status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 28px;
-    text-align: center;
-}
-
-.platform-mac.state-unknown { background: #e7f0fd; color: #1a4fa0; }
-.platform-mac.state-on      { background: #e7f5ed; color: #2a7a4a; }
-.platform-mac.state-off     { background: #fde8e7; color: #b83a30; }
 
 /* ── Description ── */
 .description {
@@ -108,21 +92,3 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* ── Button ── */
-button {
-    background: #1a1a1a;
-    color: #f4f1ec;
-    border: none;
-    border-radius: 10px;
-    padding: 11px 22px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    font-family: inherit;
-    letter-spacing: -0.2px;
-    transition: background 0.15s;
-}
-
-button:hover  { background: #2e2e2e; }
-button:active { background: #000; }

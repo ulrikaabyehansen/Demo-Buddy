@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo Buddy</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, "Helvetica Neue", sans-serif;
+      width: 320px;
+      background: #f4f1ec;
+      color: #1a1a1a;
+      font-size: 13px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid #e0dbd3;
+      background: #fff;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-title h1 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.2px;
+    }
+
+    .header-title p {
+      font-size: 11px;
+      color: #6b6560;
+      margin-top: 1px;
+    }
+
+    /* ── Toggle ── */
+    .toggle {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: #d4cfc8;
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-thumb {
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 18px; height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+      transition: transform 0.2s;
+      pointer-events: none;
+    }
+    .toggle input:checked ~ .toggle-track { background: #0066cc; }
+    .toggle input:checked ~ .toggle-thumb { transform: translateX(18px); }
+
+    /* ── Content ── */
+    .content { padding: 14px 16px; }
+    .content.dimmed { opacity: 0.45; }
+
+    .section { margin-bottom: 16px; }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #5a5550;
+      margin-bottom: 7px;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .arrow { color: #6b6560; font-size: 13px; flex-shrink: 0; }
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 0;
+      background: #fff;
+      border: 1px solid #cbc6be;
+      border-radius: 7px;
+      color: #1a1a1a;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="text"]::placeholder { color: #9e9890; }
+    input[type="text"]:focus { border-color: #0066cc; }
+
+    /* ── Blur list textarea ── */
+    textarea {
+      width: 100%;
+      background: #fff;
+      border: 1px solid #cbc6be;
+      border-radius: 7px;
+      color: #1a1a1a;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-family: inherit;
+      outline: none;
+      resize: vertical;
+      min-height: 60px;
+      line-height: 1.5;
+      transition: border-color 0.15s;
+    }
+    textarea::placeholder { color: #9e9890; }
+    textarea:focus { border-color: #0066cc; }
+
+    .field-hint {
+      font-size: 10px;
+      color: #9e9890;
+      margin-top: 5px;
+      letter-spacing: 0.1px;
+    }
+
+    /* ── Serial radio options ── */
+    .radio-group { display: flex; gap: 7px; margin-bottom: 8px; }
+
+    .radio-opt {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1.5px solid #dbd6ce;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      color: #8a857c;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+      user-select: none;
+    }
+    .radio-opt input[type="radio"] { display: none; }
+    .radio-opt.active {
+      border-color: #0066cc;
+      background: #e7f0fd;
+      color: #0066cc;
+    }
+
+    /* ── Serial preview ── */
+    .serial-preview {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: #fff;
+      border: 1px solid #dbd6ce;
+      border-radius: 7px;
+      font-size: 11px;
+    }
+    .serial-ex    { font-family: 'SF Mono', 'Menlo', monospace; font-size: 11px; color: #6b6560; }
+    .serial-result { font-family: 'SF Mono', 'Menlo', monospace; font-size: 11px; color: #0066cc; font-weight: 600; }
+    .serial-result.blurred { filter: blur(3px); color: #6b6560; }
+
+    /* ── Divider ── */
+    .divider { height: 1px; background: #e0dbd3; margin: 0 0 14px; }
+
+    /* ── Save button ── */
+    .save-btn {
+      width: 100%;
+      padding: 10px;
+      background: #0066cc;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: -0.1px;
+      transition: background 0.15s;
+    }
+    .save-btn:hover  { background: #0055aa; }
+    .save-btn:active { background: #004499; transform: scale(0.98); }
+
+    .status {
+      text-align: center;
+      padding: 8px 0 0;
+      font-size: 11px;
+      color: #0066cc;
+      min-height: 22px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-left">
+      <!-- Blueprint icon -->
+      <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="7" fill="#0a2744"/>
+        <line x1="0" y1="8"  x2="32" y2="8"  stroke="#2563ab" stroke-width="0.6" opacity="0.7"/>
+        <line x1="0" y1="16" x2="32" y2="16" stroke="#2563ab" stroke-width="0.6" opacity="0.7"/>
+        <line x1="0" y1="24" x2="32" y2="24" stroke="#2563ab" stroke-width="0.6" opacity="0.7"/>
+        <line x1="8"  y1="0" x2="8"  y2="32" stroke="#2563ab" stroke-width="0.6" opacity="0.7"/>
+        <line x1="16" y1="0" x2="16" y2="32" stroke="#2563ab" stroke-width="0.6" opacity="0.7"/>
+        <line x1="24" y1="0" x2="24" y2="32" stroke="#2563ab" stroke-width="0.6" opacity="0.7"/>
+        <g transform="translate(3.9, 3.4) scale(0.35)">
+          <path d="M24 14 Q12 14 12 26 L12 38 Q12 50 24 50 L28 50 L22 58"
+            fill="none" stroke="#e8f1fc" stroke-width="5.2"
+            stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="30" cy="32" r="3.8" fill="#e7f0fd"/>
+          <circle cx="42" cy="32" r="3.8" fill="#e7f0fd"/>
+          <circle cx="54" cy="32" r="3.8" fill="#e7f0fd"/>
+        </g>
+      </svg>
+      <div class="header-title">
+        <h1>Demo Buddy</h1>
+        <p>Hide sensitive data during live demos</p>
+      </div>
+    </div>
+    <label class="toggle" title="Enable / disable masking">
+      <input type="checkbox" id="enabled">
+      <div class="toggle-track"></div>
+      <div class="toggle-thumb"></div>
+    </label>
+  </div>
+
+  <div class="content" id="settingsContent">
+
+    <div class="section">
+      <div class="section-label">Company Name</div>
+      <div class="field-row">
+        <input type="text" id="companyOriginal"    placeholder="e.g. Apple">
+        <span class="arrow">→</span>
+        <input type="text" id="companyReplacement" placeholder="e.g. Betterbag Inc">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Email Domain</div>
+      <div class="field-row">
+        <input type="text" id="emailDomainOriginal"    placeholder="@apple.com">
+        <span class="arrow">→</span>
+        <input type="text" id="emailDomainReplacement" placeholder="@betterbag.uk">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Always Blur</div>
+      <textarea id="blurList" placeholder="e.g. John Smith, +45 12 34 56 78, confidential.com" rows="3"></textarea>
+      <div class="field-hint">Comma-separated · case-insensitive · always blurred</div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Serial Numbers</div>
+      <div class="radio-group">
+        <label class="radio-opt" id="opt-scramble">
+          <input type="radio" name="serialMode" value="scramble">
+          🔀 Scramble
+        </label>
+        <label class="radio-opt" id="opt-blur">
+          <input type="radio" name="serialMode" value="blur">
+          👁 Blur
+        </label>
+      </div>
+      <div class="serial-preview">
+        <span style="color:#5a5550; white-space:nowrap">Preview:</span>
+        <span class="serial-ex">DEMO1234ABCD</span>
+        <span style="color:#6b6560">→</span>
+        <span class="serial-result" id="serialResult">X3KP7NM2QR8A</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <button class="save-btn" id="saveBtn">Save &amp; Reload Page</button>
+    <div class="status" id="status"></div>
+
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

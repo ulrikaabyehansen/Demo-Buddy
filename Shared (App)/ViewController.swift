@@ -18,7 +18,7 @@ typealias PlatformViewController = NSViewController
 
 let extensionBundleIdentifier = "dk.talktech.demo-buddy.extension"
 
-class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMessageHandler {
+class ViewController: PlatformViewController, WKNavigationDelegate {
 
     @IBOutlet var webView: WKWebView!
 
@@ -30,8 +30,6 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
 #if os(iOS)
         self.webView.scrollView.isScrollEnabled = false
 #endif
-
-        self.webView.configuration.userContentController.add(self, name: "controller")
 
         self.webView.loadFileURL(Bundle.main.url(forResource: "Main", withExtension: "html")!, allowingReadAccessTo: Bundle.main.resourceURL!)
     }
@@ -54,25 +52,6 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
                 } else {
                     webView.evaluateJavaScript("show('mac', \(state.isEnabled), false)")
                 }
-            }
-        }
-#endif
-    }
-
-    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-#if os(macOS)
-        if (message.body as! String != "open-preferences") {
-            return
-        }
-
-        SFSafariApplication.showPreferencesForExtension(withIdentifier: extensionBundleIdentifier) { error in
-            guard error == nil else {
-                // Insert code to inform the user that something went wrong.
-                return
-            }
-
-            DispatchQueue.main.async {
-                NSApp.terminate(self)
             }
         }
 #endif

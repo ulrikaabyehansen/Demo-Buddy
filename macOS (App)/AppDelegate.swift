@@ -1,4 +1,5 @@
 import Cocoa
+import SafariServices
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -30,7 +31,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func buildMenu() -> NSMenu {
         let menu = NSMenu()
 
-        menu.addItem(NSMenuItem(title: "Safari Extension Setup…",
+        menu.addItem(NSMenuItem(title: "Open Safari Settings…",
+                                action: #selector(openSafariSettings),
+                                keyEquivalent: ""))
+
+        menu.addItem(NSMenuItem(title: "About Demo Buddy…",
                                 action: #selector(showOnboarding),
                                 keyEquivalent: ""))
 
@@ -44,6 +49,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     // MARK: - Actions
+
+    @objc private func openSafariSettings() {
+        SFSafariApplication.showPreferencesForExtension(withIdentifier: "dk.talktech.demo-buddy.extension") { error in
+            DispatchQueue.main.async {
+                if error != nil {
+                    // Fallback: just open Safari
+                    NSWorkspace.shared.open(URL(fileURLWithPath: "/Applications/Safari.app"))
+                }
+            }
+        }
+    }
 
     @objc private func showOnboarding() {
         if let wc = NSApp.windows.first(where: { $0.title == "Demo Buddy" })?.windowController {
